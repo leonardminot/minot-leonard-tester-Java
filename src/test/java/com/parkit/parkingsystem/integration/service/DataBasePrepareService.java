@@ -26,5 +26,19 @@ public class DataBasePrepareService {
         }
     }
 
+    public void addTwoTicketsForRegABCDEF() {
+        Connection connection = null;
+        try {
+            connection = dataBaseTestConfig.getConnection();
+            connection.prepareStatement("insert into ticket(PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME) values(1,\"ABCDEF\",1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)").execute();
+            connection.prepareStatement("insert into ticket(PARKING_NUMBER, VEHICLE_REG_NUMBER, PRICE, IN_TIME, OUT_TIME) values(1,\"ABCDEF\",1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)").execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dataBaseTestConfig.closeConnection(connection);
+        }
+
+    }
+
 
 }
