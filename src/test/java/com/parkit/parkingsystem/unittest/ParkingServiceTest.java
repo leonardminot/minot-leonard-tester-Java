@@ -15,9 +15,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Date;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +29,9 @@ public class ParkingServiceTest {
     private static ParkingService parkingService;
 
     private static Ticket ticket;
+
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -80,6 +86,27 @@ public class ParkingServiceTest {
         // Then
         assertEquals("ABCDEF",ticket.getVehicleRegNumber());
         assertEquals(ParkingType.CAR ,ticket.getParkingSpot().getParkingType());
+    }
+
+    @Test
+    public void processExitingVehicleTestUnableUpdate() throws Exception {
+        // Specific setup test
+        System.setOut(new PrintStream(outputStream));
+
+        // Given
+        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false); // Enable to update ticket
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+
+        // When
+        parkingService.processExitingVehicle();
+        String consoleOutput = outputStream.toString().trim();
+
+        // Then
+        assertTrue(consoleOutput.endsWith("Unable to update ticket information. Error occurred"));
+
+        // Specific tear down
+        System.setOut(originalOut);
     }
 
 }
