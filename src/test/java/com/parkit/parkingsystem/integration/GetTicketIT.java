@@ -32,7 +32,7 @@ public class GetTicketIT {
     }
 
     @BeforeEach
-    public void setUpPerTest() {
+    public void setUpPerTest() throws Exception {
         ticket = new Ticket();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
         ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
@@ -42,7 +42,7 @@ public class GetTicketIT {
     }
 
     @Test
-    void testGetNbTicket() {
+    void testGetNbTicket() throws Exception {
         // Given
         dataBasePrepareService.addTwoTicketsForRegABCDEF();
 

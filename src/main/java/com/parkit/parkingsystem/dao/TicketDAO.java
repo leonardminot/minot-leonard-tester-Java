@@ -87,7 +87,25 @@ public class TicketDAO {
         return false;
     }
 
-    public int getNbTicket(Ticket ticket) {
-        return 0;
+    public int getNbTicket(Ticket ticket) throws Exception {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int nbTickets = 0;
+        try {
+            con = dataBaseConfig.getConnection();
+            ps = con.prepareStatement(DBConstants.GET_NB_TICKETS);
+            ps.setString(1, ticket.getVehicleRegNumber());
+            rs = ps.executeQuery();
+            if (rs.next())
+                nbTickets = rs.getInt(1);
+        } catch (Exception ex) {
+            logger.error("Error getting nb of tickets for specific Vehicle Reg Number");
+        } finally {
+            dataBaseConfig.closePreparedStatement(ps);
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closeConnection(con);
+        }
+        return nbTickets;
     }
 }
