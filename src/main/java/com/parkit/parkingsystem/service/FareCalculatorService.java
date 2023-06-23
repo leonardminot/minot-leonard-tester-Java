@@ -23,11 +23,13 @@ public class FareCalculatorService {
 
         switch (ticket.getParkingSpot().getParkingType()){
             case CAR: {
-                ticket.setPrice(durationInHours * Fare.CAR_RATE_PER_HOUR);
+                double price3Decimals = (double)Math.round(durationInHours * Fare.CAR_RATE_PER_HOUR * 1000) / 1000;
+                ticket.setPrice(price3Decimals);
                 break;
             }
             case BIKE: {
-                ticket.setPrice(durationInHours * Fare.BIKE_RATE_PER_HOUR);
+                double price3Decimals = (double)Math.round(durationInHours * Fare.BIKE_RATE_PER_HOUR * 1000) / 1000;
+                ticket.setPrice(price3Decimals);
                 break;
             }
             default: throw new IllegalArgumentException("Unkown Parking Type");
