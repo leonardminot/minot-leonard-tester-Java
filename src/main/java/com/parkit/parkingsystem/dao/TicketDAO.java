@@ -87,7 +87,7 @@ public class TicketDAO {
         return false;
     }
 
-    public int getNbTicket() {
+    public int getNbTicket(Ticket ticket) {
         return 0;
     }
 }

@@ -157,7 +157,7 @@ public class ParkingServiceTest {
         when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        when(ticketDAO.getNbTicket()).thenReturn(2);
+        when(ticketDAO.getNbTicket(any(Ticket.class))).thenReturn(2);
 
         // When
         parkingService.processIncomingVehicle();
