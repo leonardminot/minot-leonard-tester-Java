@@ -39,4 +39,8 @@ public class FareCalculatorService {
             }
         }
     }
+
+    public void calculateFare(Ticket ticket, boolean discount) {
+
+    }
 }
