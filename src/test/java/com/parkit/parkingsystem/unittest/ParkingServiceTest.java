@@ -134,4 +134,16 @@ public class ParkingServiceTest {
         assertNull(parkingSpot);
     }
 
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument() {
+        // Given
+        when(inputReaderUtil.readSelection()).thenReturn(3); // Wrong argument
+
+        // When
+        ParkingSpot parkingSpot = parkingService.getNextParkingNumberIfAvailable();
+
+        // Then
+        assertNull(parkingSpot);
+    }
+
 }
