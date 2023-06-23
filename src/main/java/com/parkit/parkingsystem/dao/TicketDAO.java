@@ -86,4 +86,8 @@ public class TicketDAO {
         }
         return false;
     }
+
+    public int getNbTicket() {
+        return 0;
+    }
 }

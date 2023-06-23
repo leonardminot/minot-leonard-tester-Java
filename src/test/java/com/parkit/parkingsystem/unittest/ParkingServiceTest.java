@@ -146,4 +146,29 @@ public class ParkingServiceTest {
         assertThat(parkingSpot).isNull();
     }
 
+    @Test
+    public void testWhenIncomingVehicleWithDiscount_thenShowWelcomeMessage() throws Exception {
+        // Specific setup test
+        System.setOut(new PrintStream(outputStream));
+
+        // Given
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Vehicle is a Car
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+        when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(ticketDAO.getNbTicket()).thenReturn(2);
+
+        // When
+        parkingService.processIncomingVehicle();
+        String consoleOutput = outputStream.toString().trim();
+
+        // Then
+        String welcomeMessage = "Heureux de vous revoir ! En tant qu’utilisateur régulier de notre parking, vous allez obtenir une remise de 5%";
+        assertThat(consoleOutput.endsWith(welcomeMessage)).isTrue();
+
+        // Specific tear down
+        System.setOut(originalOut);
+    }
+
 }
