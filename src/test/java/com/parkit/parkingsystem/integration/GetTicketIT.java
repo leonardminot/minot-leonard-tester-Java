@@ -42,7 +42,7 @@ public class GetTicketIT {
     }
 
     @Test
-    void testGetNbTicket() throws Exception {
+    void testGetNbTicketWhenAlreadyTwoTickets() throws Exception {
         // Given
         dataBasePrepareService.addTwoTicketsForRegABCDEF();
 
@@ -51,5 +51,16 @@ public class GetTicketIT {
 
         // Then
         assertThat(numberOfTickets).isEqualTo(2);
+    }
+
+    @Test
+    void testGetNbTicketsWhen0Ticket() throws Exception {
+        // Given
+
+        //When
+        int numberOfTickets = ticketDAO.getNbTicket(ticket);
+
+        //Then
+        assertThat(numberOfTickets).isEqualTo(0);
     }
 }
