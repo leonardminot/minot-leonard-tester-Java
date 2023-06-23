@@ -171,4 +171,21 @@ public class ParkingServiceTest {
         System.setOut(originalOut);
     }
 
+    @Test
+    public void testWhenExitingVehicleWithDiscount_thenTicketPriceShouldBeWithDiscount() throws Exception {
+        // Given
+        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+        when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        when(ticketDAO.getNbTicket(any(Ticket.class))).thenReturn(2);
+
+        // When
+        parkingService.processExitingVehicle();
+
+        // Then
+        double priceWithDiscount = (double) Math.round(Fare.CAR_RATE_PER_HOUR * 0.95 * 1000) / 1000;
+        assertThat(ticket.getPrice()).isEqualTo(priceWithDiscount);
+    }
+
 }
