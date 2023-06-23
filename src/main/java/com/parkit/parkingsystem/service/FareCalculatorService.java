@@ -5,7 +5,9 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
-    public void calculateFare(Ticket ticket){
+    private final double DISCOUNT_PERCENTAGE = 0.95;
+
+    public void calculateFare(Ticket ticket, boolean discount){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
         }
@@ -19,19 +21,21 @@ public class FareCalculatorService {
         final int MILLISECONDS_IN_HOUR = MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTES * MINUTES_IN_HOUR;
         final double FREE_LIMIT_PARKING_TIME_IN_HOUR = 0.5;
 
+
         double durationInHours = (outHour - inHour) / MILLISECONDS_IN_HOUR;
+        double discountApplicable = getDiscount(discount);
 
         if (durationInHours < FREE_LIMIT_PARKING_TIME_IN_HOUR) {
             ticket.setPrice(0);
         } else {
             switch (ticket.getParkingSpot().getParkingType()){
                 case CAR: {
-                    double price3Decimals = (double)Math.round(durationInHours * Fare.CAR_RATE_PER_HOUR * 1000) / 1000;
+                    double price3Decimals = (double)Math.round(durationInHours * Fare.CAR_RATE_PER_HOUR * 1000 * discountApplicable) / 1000;
                     ticket.setPrice(price3Decimals);
                     break;
                 }
                 case BIKE: {
-                    double price3Decimals = (double)Math.round(durationInHours * Fare.BIKE_RATE_PER_HOUR * 1000) / 1000;
+                    double price3Decimals = (double)Math.round(durationInHours * Fare.BIKE_RATE_PER_HOUR * 1000 * discountApplicable) / 1000;
                     ticket.setPrice(price3Decimals);
                     break;
                 }
@@ -40,7 +44,11 @@ public class FareCalculatorService {
         }
     }
 
-    public void calculateFare(Ticket ticket, boolean discount) {
+    private double getDiscount(boolean discount) {
+        return discount ? DISCOUNT_PERCENTAGE : 1;
+    }
 
+    public void calculateFare(Ticket ticket) {
+        calculateFare(ticket, false);
     }
 }
