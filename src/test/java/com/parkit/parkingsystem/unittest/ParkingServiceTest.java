@@ -65,4 +65,21 @@ public class ParkingServiceTest {
         assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
     }
 
+    @Test
+    public void processIncomingVehicle() throws Exception {
+        // Given
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Vehicle is a Car
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+        when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+
+        // When
+        parkingService.processIncomingVehicle();
+
+        // Then
+        assertEquals("ABCDEF",ticket.getVehicleRegNumber());
+        assertEquals(ParkingType.CAR ,ticket.getParkingSpot().getParkingType());
+    }
+
 }
