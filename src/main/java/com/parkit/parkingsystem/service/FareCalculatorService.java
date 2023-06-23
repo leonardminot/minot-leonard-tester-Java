@@ -13,15 +13,15 @@ public class FareCalculatorService {
         double inHour = ticket.getInTime().getTime();
         double outHour = ticket.getOutTime().getTime();
 
-        //TODO: Some tests are failing here. Need to check if this logic is correct
         final int MILLISECONDS_IN_SECOND = 1000;
         final int SECONDS_IN_MINUTES = 60;
         final int MINUTES_IN_HOUR = 60;
         final int MILLISECONDS_IN_HOUR = MILLISECONDS_IN_SECOND * SECONDS_IN_MINUTES * MINUTES_IN_HOUR;
+        final double FREE_LIMIT_PARKING_TIME_IN_HOUR = 0.5;
 
         double durationInHours = (outHour - inHour) / MILLISECONDS_IN_HOUR;
 
-        if (durationInHours < 0.5) {
+        if (durationInHours < FREE_LIMIT_PARKING_TIME_IN_HOUR) {
             ticket.setPrice(0);
         } else {
             switch (ticket.getParkingSpot().getParkingType()){
