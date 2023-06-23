@@ -109,4 +109,17 @@ public class ParkingServiceTest {
         System.setOut(originalOut);
     }
 
+    @Test
+    public void testGetNextParkingNumberIfAvailable() {
+        // Given
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Vehicle is a Car
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(2); // slot 2 is returned from the data base
+
+        // When
+        ParkingSpot parkingSpot = parkingService.getNextParkingNumberIfAvailable();
+
+        // Then
+        assertEquals(2, parkingSpot.getId());
+    }
+
 }
