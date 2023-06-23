@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
@@ -20,6 +19,7 @@ import java.io.PrintStream;
 import java.util.Date;
 
 import static junit.framework.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,7 +67,7 @@ public class ParkingServiceTest {
         parkingService.processExitingVehicle();
 
         // Then
-        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
+        assertThat(ticket.getPrice()).isEqualTo(Fare.CAR_RATE_PER_HOUR);
     }
 
     @Test
@@ -83,8 +83,8 @@ public class ParkingServiceTest {
         parkingService.processIncomingVehicle();
 
         // Then
-        assertEquals("ABCDEF",ticket.getVehicleRegNumber());
-        assertEquals(ParkingType.CAR ,ticket.getParkingSpot().getParkingType());
+        assertThat(ticket.getVehicleRegNumber()).isEqualTo("ABCDEF");
+        assertThat(ticket.getParkingSpot().getParkingType()).isEqualTo(ParkingType.CAR);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ParkingServiceTest {
         String consoleOutput = outputStream.toString().trim();
 
         // Then
-        assertTrue(consoleOutput.endsWith("Unable to update ticket information. Error occurred"));
+        assertThat(consoleOutput.endsWith("Unable to update ticket information. Error occurred")).isTrue();
 
         // Specific tear down
         System.setOut(originalOut);
@@ -118,7 +118,7 @@ public class ParkingServiceTest {
         ParkingSpot parkingSpot = parkingService.getNextParkingNumberIfAvailable();
 
         // Then
-        assertEquals(2, parkingSpot.getId());
+        assertThat(parkingSpot.getId()).isEqualTo(2);
     }
 
     @Test
@@ -131,7 +131,7 @@ public class ParkingServiceTest {
         ParkingSpot parkingSpot = parkingService.getNextParkingNumberIfAvailable();
 
         // Then
-        assertNull(parkingSpot);
+        assertThat(parkingSpot).isNull();
     }
 
     @Test
@@ -143,7 +143,7 @@ public class ParkingServiceTest {
         ParkingSpot parkingSpot = parkingService.getNextParkingNumberIfAvailable();
 
         // Then
-        assertNull(parkingSpot);
+        assertThat(parkingSpot).isNull();
     }
 
 }
