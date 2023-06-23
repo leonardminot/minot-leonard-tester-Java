@@ -19,8 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.Date;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -120,6 +119,19 @@ public class ParkingServiceTest {
 
         // Then
         assertEquals(2, parkingSpot.getId());
+    }
+
+    @Test
+    public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() {
+        // Given
+        when(inputReaderUtil.readSelection()).thenReturn(1); // Vehicle is a Car
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(-1);
+
+        // When
+        ParkingSpot parkingSpot = parkingService.getNextParkingNumberIfAvailable();
+
+        // Then
+        assertNull(parkingSpot);
     }
 
 }
