@@ -71,6 +71,25 @@ public class ParkingServiceTest {
     }
 
     @Test
+    public void processIncomingBikeTest() throws Exception {
+        // Given
+        ParkingSpot parkingSpotBike = new ParkingSpot(1, ParkingType.BIKE,false);
+        ticket.setParkingSpot(parkingSpotBike);
+        when(inputReaderUtil.readSelection()).thenReturn(2); // Vehicle is a Bike
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
+        when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+
+        // When
+        parkingService.processIncomingVehicle();
+
+        // Then
+        assertThat(ticket.getParkingSpot().getParkingType()).isEqualTo(ParkingType.BIKE);
+
+    }
+
+    @Test
     public void processIncomingVehicle() throws Exception {
         // Given
         when(inputReaderUtil.readSelection()).thenReturn(1); // Vehicle is a Car
