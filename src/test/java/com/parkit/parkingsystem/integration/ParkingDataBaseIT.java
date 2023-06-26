@@ -63,6 +63,7 @@ public class ParkingDataBaseIT {
 
         // Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
+        // TODO : refactoriser avec un isAfter()
         assertThat(ticket.getInTime()).isNotNull();
     }
 
@@ -81,6 +82,7 @@ public class ParkingDataBaseIT {
         // Then
         //TODO: check that the fare generated and out time are populated correctly in the database
         assertThat(ticket.getOutTime()).isNotNull();
+        // TODO : refactoriser avec un isAfter()
         assertThat(ticket.getPrice()).isEqualTo((ticket.getOutTime().getTime() - ticket.getInTime().getTime()) / (double)(1000 * 60 * 60) * Fare.CAR_RATE_PER_HOUR);
     }
 
