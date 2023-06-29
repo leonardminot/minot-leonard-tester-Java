@@ -16,6 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Date;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +28,7 @@ public class ParkingDataBaseIT {
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
+    private static  Date testStartingTime;
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -44,6 +47,10 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
+
+        testStartingTime = new Date();
+        long updateStartingTime = testStartingTime.getTime() - 1000;
+        testStartingTime = new Date(updateStartingTime);
     }
 
     @AfterAll
@@ -54,17 +61,16 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingACar(){
         // Given
+
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
         // When
         parkingService.processIncomingVehicle();
-        //TODO: verify test with Alex ??
-        //  L'assert doit il être une requête à une base de données ?
+        Date testEndingDate = new Date();
 
         // Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
-        // TODO : refactoriser avec un isAfter()
-        assertThat(ticket.getInTime()).isNotNull();
+        assertThat(ticket.getInTime()).isBetween(testStartingTime, testEndingDate);
     }
 
     @Test
@@ -77,13 +83,13 @@ public class ParkingDataBaseIT {
 
         // When
         parkingService.processExitingVehicle();
+        Date testEndingDate = new Date();
         ticket = ticketDAO.getTicket("ABCDEF");
 
         // Then
-        //TODO: check that the fare generated and out time are populated correctly in the database
-        assertThat(ticket.getOutTime()).isNotNull();
-        // TODO : refactoriser avec un isAfter()
-        assertThat(ticket.getPrice()).isEqualTo((ticket.getOutTime().getTime() - ticket.getInTime().getTime()) / (double)(1000 * 60 * 60) * Fare.CAR_RATE_PER_HOUR);
+        double expectedTicketPrice = (ticket.getOutTime().getTime() - ticket.getInTime().getTime()) / (double)(1000 * 60 * 60) * Fare.CAR_RATE_PER_HOUR;
+        assertThat(ticket.getOutTime()).isBetween(testStartingTime, testEndingDate);
+        assertThat(ticket.getPrice()).isEqualTo(expectedTicketPrice);
     }
 
     @Test
