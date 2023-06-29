@@ -32,7 +32,7 @@ public class GetTicketIT {
     }
 
     @BeforeEach
-    public void setUpPerTest() throws Exception {
+    public void setUpPerTest(){
         ticket = new Ticket();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
         ticket.setInTime(new Date(System.currentTimeMillis() - (60*60*1000)));
