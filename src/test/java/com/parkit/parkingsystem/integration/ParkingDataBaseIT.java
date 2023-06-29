@@ -9,7 +9,6 @@ import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import com.parkit.parkingsystem.util.NumberUtil;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ParkingDataBaseIT {
 
-    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private final static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
@@ -35,7 +34,7 @@ public class ParkingDataBaseIT {
     private static InputReaderUtil inputReaderUtil;
 
     @BeforeAll
-    private static void setUp() throws Exception{
+    public static void setUp() {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
@@ -44,7 +43,7 @@ public class ParkingDataBaseIT {
     }
 
     @BeforeEach
-    private void setUpPerTest() throws Exception {
+    public void setUpPerTest() throws Exception {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         dataBasePrepareService.clearDataBaseEntries();
@@ -52,11 +51,6 @@ public class ParkingDataBaseIT {
         testStartingTime = new Date();
         long updateStartingTime = testStartingTime.getTime() - 1000;
         testStartingTime = new Date(updateStartingTime);
-    }
-
-    @AfterAll
-    private static void tearDown(){
-
     }
 
     @Test
