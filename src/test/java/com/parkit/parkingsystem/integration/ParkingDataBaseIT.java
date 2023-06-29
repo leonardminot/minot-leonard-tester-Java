@@ -8,6 +8,7 @@ import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import com.parkit.parkingsystem.util.NumberUtil;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,7 +90,7 @@ public class ParkingDataBaseIT {
         // Then
         double expectedTicketPrice = (ticket.getOutTime().getTime() - ticket.getInTime().getTime()) / (double)(1000 * 60 * 60) * Fare.CAR_RATE_PER_HOUR;
         assertThat(ticket.getOutTime()).isBetween(testStartingTime, testEndingDate);
-        assertThat(ticket.getPrice()).isEqualTo(expectedTicketPrice);
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(expectedTicketPrice, 3));
     }
 
     @Test
@@ -108,9 +109,7 @@ public class ParkingDataBaseIT {
 
         // Then
         double expectedPrice = (ticket.getOutTime().getTime() - ticket.getInTime().getTime() )/ (double) (1000 * 60 * 60) * Fare.CAR_RATE_PER_HOUR * 0.95;
-        double expectedRoundedPrice = (double)Math.round((double) expectedPrice * 1000) / 1000;
-        assertThat(ticket.getPrice()).isEqualTo(expectedRoundedPrice);
-
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(expectedPrice, 3));
     }
 
 }
