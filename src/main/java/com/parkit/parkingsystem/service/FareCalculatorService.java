@@ -6,8 +6,6 @@ import com.parkit.parkingsystem.util.NumberUtil;
 
 public class FareCalculatorService {
 
-    private final double DISCOUNT_PERCENTAGE = 0.95;
-
     public void calculateFare(Ticket ticket, boolean discount){
         if( (ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime())) ){
             throw new IllegalArgumentException("Out time provided is incorrect:"+ticket.getOutTime().toString());
@@ -29,25 +27,24 @@ public class FareCalculatorService {
         if (durationInHours < FREE_LIMIT_PARKING_TIME_IN_HOUR) {
             ticket.setPrice(0);
         } else {
-            switch (ticket.getParkingSpot().getParkingType()){
-                case CAR: {
+            switch (ticket.getParkingSpot().getParkingType()) {
+                case CAR -> {
                     double fare = durationInHours * Fare.CAR_RATE_PER_HOUR * discountApplicable;
                     double price3Decimals = NumberUtil.roundDoubleToNDecimals(fare, 3);
                     ticket.setPrice(price3Decimals);
-                    break;
                 }
-                case BIKE: {
+                case BIKE -> {
                     double fare = durationInHours * Fare.BIKE_RATE_PER_HOUR * discountApplicable;
-                    double price3Decimals = NumberUtil.roundDoubleToNDecimals(fare, 3);;
+                    double price3Decimals = NumberUtil.roundDoubleToNDecimals(fare, 3);
                     ticket.setPrice(price3Decimals);
-                    break;
                 }
-                default: throw new IllegalArgumentException("Unkown Parking Type");
+                default -> throw new IllegalArgumentException("Unkown Parking Type");
             }
         }
     }
 
     private double getDiscount(boolean discount) {
+        double DISCOUNT_PERCENTAGE = 0.95;
         return discount ? DISCOUNT_PERCENTAGE : 1;
     }
 
