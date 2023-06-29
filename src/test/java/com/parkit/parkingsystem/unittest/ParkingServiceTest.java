@@ -56,7 +56,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTest() throws Exception{
+    public void processExitingVehicleTest() {
         // Given
         when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
@@ -71,7 +71,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processIncomingBikeTest() throws Exception {
+    public void processIncomingBikeTest() {
         // Given
         ParkingSpot parkingSpotBike = new ParkingSpot(1, ParkingType.BIKE,false);
         ticket.setParkingSpot(parkingSpotBike);
@@ -90,7 +90,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processIncomingVehicle() throws Exception {
+    public void processIncomingVehicle() {
         // Given
         when(inputReaderUtil.readSelection()).thenReturn(1); // Vehicle is a Car
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
@@ -107,7 +107,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processExitingVehicleTestUnableUpdate() throws Exception {
+    public void processExitingVehicleTestUnableUpdate() {
         // Specific setup test
         System.setOut(new PrintStream(outputStream));
 
