@@ -5,6 +5,7 @@ import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
+import com.parkit.parkingsystem.util.NumberUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         // Then
-        assertThat(ticket.getPrice()).isEqualTo(Fare.CAR_RATE_PER_HOUR);
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(Fare.CAR_RATE_PER_HOUR, 3));
 
     }
 
@@ -64,7 +65,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         // Then
-        assertThat(ticket.getPrice()).isEqualTo(Fare.BIKE_RATE_PER_HOUR);
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(Fare.BIKE_RATE_PER_HOUR, 3));
     }
 
     @Test
@@ -118,7 +119,8 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         // Then
-        assertThat(ticket.getPrice()).isEqualTo(0.75 * Fare.BIKE_RATE_PER_HOUR);
+        double expectedPrice = NumberUtil.roundDoubleToNDecimals(0.75 * Fare.BIKE_RATE_PER_HOUR, 3);
+        assertThat(ticket.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
@@ -136,7 +138,8 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         // Then
-        assertThat(ticket.getPrice()).isEqualTo(0.75 * Fare.CAR_RATE_PER_HOUR);
+        double expectedPrice = NumberUtil.roundDoubleToNDecimals(0.75 * Fare.CAR_RATE_PER_HOUR, 3);
+        assertThat(ticket.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
@@ -154,7 +157,8 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         // Then
-        assertThat(ticket.getPrice()).isEqualTo(24 * Fare.CAR_RATE_PER_HOUR);
+        double expectedPrice = NumberUtil.roundDoubleToNDecimals(24 * Fare.CAR_RATE_PER_HOUR, 3);
+        assertThat(ticket.getPrice()).isEqualTo(expectedPrice);
     }
 
     @Test
@@ -209,8 +213,8 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket, discount);
 
         // Then
-        double priceWithDiscount = (double)Math.round(Fare.CAR_RATE_PER_HOUR * 0.95 * 1000) / 1000;
-        assertThat(ticket.getPrice()).isEqualTo(priceWithDiscount);
+        double priceWithDiscount = Fare.CAR_RATE_PER_HOUR * 0.95;
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(priceWithDiscount, 3));
     }
 
     @Test
@@ -229,8 +233,8 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket, discount);
 
         // Then
-        double priceWithDiscount = (double)Math.round(Fare.BIKE_RATE_PER_HOUR * 0.95 * 1000) / 1000;
-        assertThat(ticket.getPrice()).isEqualTo(priceWithDiscount);
+        double priceWithDiscount = Fare.BIKE_RATE_PER_HOUR * 0.95;
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(priceWithDiscount, 3));
     }
 
 }
