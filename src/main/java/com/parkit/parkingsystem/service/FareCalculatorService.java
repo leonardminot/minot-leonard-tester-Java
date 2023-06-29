@@ -2,6 +2,7 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
+import com.parkit.parkingsystem.util.NumberUtil;
 
 public class FareCalculatorService {
 
@@ -30,12 +31,14 @@ public class FareCalculatorService {
         } else {
             switch (ticket.getParkingSpot().getParkingType()){
                 case CAR: {
-                    double price3Decimals = (double)Math.round(durationInHours * Fare.CAR_RATE_PER_HOUR * 1000 * discountApplicable) / 1000;
+                    double fare = durationInHours * Fare.CAR_RATE_PER_HOUR * discountApplicable;
+                    double price3Decimals = NumberUtil.roundDoubleToNDecimals(fare, 3);
                     ticket.setPrice(price3Decimals);
                     break;
                 }
                 case BIKE: {
-                    double price3Decimals = (double)Math.round(durationInHours * Fare.BIKE_RATE_PER_HOUR * 1000 * discountApplicable) / 1000;
+                    double fare = durationInHours * Fare.BIKE_RATE_PER_HOUR * discountApplicable;
+                    double price3Decimals = NumberUtil.roundDoubleToNDecimals(fare, 3);;
                     ticket.setPrice(price3Decimals);
                     break;
                 }
