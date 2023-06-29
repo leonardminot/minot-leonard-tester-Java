@@ -19,11 +19,15 @@ public class Ticket {
     }
 
     public ParkingSpot getParkingSpot() {
-        return parkingSpot;
+        return new ParkingSpot(this.parkingSpot.getId(),
+                this.parkingSpot.getParkingType(),
+                this.parkingSpot.isAvailable());
     }
 
     public void setParkingSpot(ParkingSpot parkingSpot) {
-        this.parkingSpot = parkingSpot;
+        this.parkingSpot = new ParkingSpot(parkingSpot.getId(),
+                parkingSpot.getParkingType(),
+                parkingSpot.isAvailable());
     }
 
     public String getVehicleRegNumber() {
@@ -43,18 +47,18 @@ public class Ticket {
     }
 
     public Date getInTime() {
-        return inTime;
+        return (inTime == null) ? null : new Date(inTime.getTime());
     }
 
     public void setInTime(Date inTime) {
-        this.inTime = inTime;
+        this.inTime = (inTime == null) ? null : new Date(inTime.getTime());
     }
 
     public Date getOutTime() {
-        return outTime;
+        return (outTime == null) ? null : new Date(outTime.getTime());
     }
 
     public void setOutTime(Date outTime) {
-        this.outTime = outTime;
+        this.outTime = (outTime == null) ? null : new Date(outTime.getTime());
     }
 }
