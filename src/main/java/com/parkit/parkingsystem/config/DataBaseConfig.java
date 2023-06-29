@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.config;
 
+import com.parkit.parkingsystem.constants.FileConstant;
+import com.parkit.parkingsystem.util.JsonReaderUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -9,11 +11,15 @@ public class DataBaseConfig {
 
     private static final Logger logger = LogManager.getLogger("DataBaseConfig");
 
+    private final JsonReaderUtil jsonReaderUtil = new JsonReaderUtil();
+
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         logger.info("Create DB connection");
         Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/prod","root","rootroot");
+                jsonReaderUtil.getStringParameter(FileConstant.DATABASE_CONNECTION_PROPERTIES, "url"),
+                jsonReaderUtil.getStringParameter(FileConstant.DATABASE_CONNECTION_PROPERTIES, "user"),
+                jsonReaderUtil.getStringParameter(FileConstant.DATABASE_CONNECTION_PROPERTIES, "password"));
     }
 
     public void closeConnection(Connection con){
