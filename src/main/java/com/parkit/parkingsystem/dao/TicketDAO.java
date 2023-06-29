@@ -8,10 +8,7 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 
 public class TicketDAO {
 
@@ -105,7 +102,7 @@ public class TicketDAO {
             rs = ps.executeQuery();
             if (rs.next())
                 nbTickets = rs.getInt(1);
-        } catch (Exception ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             logger.error("Error getting nb of tickets for specific Vehicle Reg Number");
         } finally {
             dataBaseConfig.closePreparedStatement(ps);
