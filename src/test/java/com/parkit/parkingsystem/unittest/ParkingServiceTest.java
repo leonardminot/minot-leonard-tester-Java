@@ -166,7 +166,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testWhenIncomingVehicleWithDiscount_thenShowWelcomeMessage() throws Exception {
+    public void testWhenIncomingVehicleWithDiscount_thenShowWelcomeMessage() {
         // Specific setup test
         System.setOut(new PrintStream(outputStream));
 
@@ -191,7 +191,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testWhenExitingVehicleWithDiscount_thenTicketPriceShouldBeWithDiscount() throws Exception {
+    public void testWhenExitingVehicleWithDiscount_thenTicketPriceShouldBeWithDiscount() {
         // Given
         when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
         when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);

@@ -42,7 +42,7 @@ public class GetTicketIT {
     }
 
     @Test
-    void testGetNbTicketWhenAlreadyTwoTickets() throws Exception {
+    void testGetNbTicketWhenAlreadyTwoTickets() {
         // Given
         dataBasePrepareService.addTwoTicketsForRegABCDEF();
 
@@ -54,7 +54,7 @@ public class GetTicketIT {
     }
 
     @Test
-    void testGetNbTicketsWhen0Ticket() throws Exception {
+    void testGetNbTicketsWhen0Ticket() {
         // Given
 
         //When
