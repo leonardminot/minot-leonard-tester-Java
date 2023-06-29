@@ -38,7 +38,7 @@ public class FareCalculatorService {
                     double price3Decimals = NumberUtil.roundDoubleToNDecimals(fare, 3);
                     ticket.setPrice(price3Decimals);
                 }
-                default -> throw new IllegalArgumentException("Unkown Parking Type");
+                default -> throw new IllegalArgumentException("Unknown Parking Type");
             }
         }
     }

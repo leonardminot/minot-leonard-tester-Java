@@ -5,7 +5,6 @@ import com.parkit.parkingsystem.model.Ticket;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 
 public class DataBasePrepareService {
