@@ -8,6 +8,7 @@ import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
+import com.parkit.parkingsystem.util.NumberUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -203,8 +204,8 @@ public class ParkingServiceTest {
         parkingService.processExitingVehicle();
 
         // Then
-        double priceWithDiscount = (double) Math.round(Fare.CAR_RATE_PER_HOUR * 0.95 * 1000) / 1000;
-        assertThat(ticket.getPrice()).isEqualTo(priceWithDiscount);
+        double priceWithDiscount = Fare.CAR_RATE_PER_HOUR * 0.95;
+        assertThat(ticket.getPrice()).isEqualTo(NumberUtil.roundDoubleToNDecimals(priceWithDiscount, 3));
     }
 
 }
