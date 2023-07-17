@@ -62,6 +62,8 @@ public class ParkingDataBaseIT {
         // When
         parkingService.processIncomingVehicle();
         Date testEndingDate = new Date();
+        long updateEndingDate = testEndingDate.getTime() + 1000;
+        testEndingDate = new Date(updateEndingDate);
 
         // Then
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
@@ -79,6 +81,8 @@ public class ParkingDataBaseIT {
         // When
         parkingService.processExitingVehicle();
         Date testEndingDate = new Date();
+        long updateEndingDate = testEndingDate.getTime() + 1000;
+        testEndingDate = new Date(updateEndingDate);
         ticket = ticketDAO.getTicket("ABCDEF");
 
         // Then
